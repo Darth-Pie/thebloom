@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "label": "The Bloom",
+      "href": "index.html",
+      "icon": "assets/sandstone.png",
+      "alt": "Portal"
+    },
+    {
+      "label": "Invitation",
+      "href": "invitation.html",
+      "icon": "assets/sandstone.png",
+      "alt": "Invitation"
+    },
+    {
+      "label": "Keeper Notes",
+      "href": "keeper.html",
+      "icon": "assets/sandstone.png",
+      "alt": "Keeper"
+    }
+  ]
+}

@@ -267,6 +267,27 @@ body.scroll-shrunk{padding-top:50px}
 .foot-note .g{color:var(--gold);font-family:'IM Fell English SC',serif;letter-spacing:.2em;font-size:.95rem}
 </style>
 <script>
+// Load and render menu from JSON
+async function loadMenu() {
+  try {
+    const response = await fetch('menu.json');
+    const menuData = await response.json();
+    const headerNav = document.querySelector('.sticky-header');
+    
+    menuData.items.forEach(item => {
+      const navSection = document.createElement('div');
+      navSection.className = 'nav-section';
+      navSection.innerHTML = `
+        <img src="${item.icon}" alt="${item.alt}" class="nav-icon">
+        <a href="${item.href}">${item.label}</a>
+      `;
+      headerNav.appendChild(navSection);
+    });
+  } catch (error) {
+    console.error('Error loading menu:', error);
+  }
+}
+
 // Sticky header shrink on scroll
 window.addEventListener('scroll', function(){
   const header = document.querySelector('.sticky-header');
@@ -279,23 +300,14 @@ window.addEventListener('scroll', function(){
     body.classList.remove('scroll-shrunk');
   }
 });
+
+// Load menu on page load
+window.addEventListener('DOMContentLoaded', loadMenu);
 </script>
 </head>
 <body>
 
 <header class="sticky-header">
-  <div class="nav-section">
-    <img src="assets/sandstone.png" alt="Portal" class="nav-icon">
-    <a href="index.html">The Bloom</a>
-  </div>
-  <div class="nav-section">
-    <img src="assets/sandstone.png" alt="Invitation" class="nav-icon">
-    <a href="invitation.html">Invitation</a>
-  </div>
-  <div class="nav-section">
-    <img src="assets/sandstone.png" alt="Keeper" class="nav-icon">
-    <a href="keeper.html">Keeper Notes</a>
-  </div>
 </header>
 
 <header class="hero">
