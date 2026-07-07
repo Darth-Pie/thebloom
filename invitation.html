@@ -116,16 +116,16 @@ body{
 
 /* ---- wax seal ---- */
 .seal-mount{
-  position:absolute;left:50%;bottom:-34px;transform:translateX(-50%) rotate(-6deg);z-index:5;
+  position:absolute;left:50%;bottom:-26px;transform:translateX(-50%) rotate(-6deg);z-index:5;
 }
 .wax{
-  width:118px;height:118px;border-radius:50%;position:relative;
+  width:90px;height:90px;border-radius:50%;position:relative;
   background:radial-gradient(circle at 36% 30%, var(--wax-hi) 0%, var(--wax) 38%, var(--wax-lo) 100%);
   box-shadow:
-    0 8px 18px rgba(0,0,0,.55),0 2px 4px rgba(0,0,0,.4),
-    inset 0 3px 10px rgba(255,180,150,.45),
-    inset 0 -10px 20px rgba(40,6,4,.65),
-    inset 0 0 40px rgba(70,12,8,.5);
+    0 6px 14px rgba(0,0,0,.55),0 2px 3px rgba(0,0,0,.4),
+    inset 0 2px 8px rgba(255,180,150,.45),
+    inset 0 -8px 16px rgba(40,6,4,.65),
+    inset 0 0 32px rgba(70,12,8,.5);
   display:flex;align-items:center;justify-content:center;
   clip-path:polygon(
     50% 0%, 63% 4%, 72% 2%, 82% 10%, 90% 16%, 95% 28%, 98% 38%, 97% 50%,
@@ -135,22 +135,18 @@ body{
   );
 }
 .wax::before{
-  content:"";position:absolute;inset:9px;border-radius:50%;
-  border:2px solid rgba(40,6,4,.45);
-  box-shadow:inset 0 2px 6px rgba(255,170,140,.30), inset 0 -4px 10px rgba(30,4,3,.6);
+  content:"";position:absolute;inset:7px;border-radius:50%;
+  border:1.5px solid rgba(40,6,4,.45);
+  box-shadow:inset 0 2px 5px rgba(255,170,140,.30), inset 0 -3px 8px rgba(30,4,3,.6);
 }
 .wax .crest{
   position:relative;z-index:2;text-align:center;color:rgba(30,4,3,.62);
-  text-shadow:0 1px 0 rgba(255,180,150,.4), 0 -1px 1px rgba(20,3,2,.6);
+  text-shadow:0 .8px 0 rgba(255,180,150,.4), 0 -1px .8px rgba(20,3,2,.6);
 }
-.wax .crest .mono{font-family:'IM Fell English SC',serif;font-size:1.9rem;line-height:1;letter-spacing:.02em;display:block}
-.wax .crest .ring{font-family:'Cormorant Garamond',serif;font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;margin-top:2px}
-.seal-mount::after{
-  content:"";position:absolute;left:50%;top:52%;
-  width:16px;height:26px;transform:translateX(-140%) rotate(12deg);
-  background:radial-gradient(circle at 40% 30%, var(--wax-hi), var(--wax) 55%, var(--wax-lo));
-  border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
-  box-shadow:inset 0 -4px 8px rgba(30,4,3,.6), 0 4px 8px rgba(0,0,0,.4);opacity:.9;
+.wax .crest .mono{font-family:'IM Fell English SC',serif;font-size:.9rem;line-height:1;letter-spacing:.02em;display:block;opacity:.28;}
+.wax .crest .ring{font-family:'Cormorant Garamond',serif;font-size:.4rem;letter-spacing:.24em;text-transform:uppercase;margin-top:2px}
+.seal-mount img{
+  display:block;width:90px;height:90px;object-fit:contain;
 }
 
 /* ============ GUIDE SHEET ============ */
@@ -245,12 +241,7 @@ em{font-style:italic}
     <div class="flourish bottom">✦ · ✦ · ✦</div>
 
     <div class="seal-mount" aria-hidden="true">
-      <div class="wax">
-        <div class="crest">
-          <span class="mono">Y</span>
-          <span class="ring">The Household</span>
-        </div>
-      </div>
+      <img src="assets/sandstone.png" alt="The Household seal" style="width: 90px; height: 90px;">
     </div>
   </article>
 </div>
