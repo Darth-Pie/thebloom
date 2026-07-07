@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Blooming — A Private Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Cutive+Mono&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#d9cdb2;
+  --paper-dark:#c4b596;
+  --ink:#2b2417;
+  --ink-soft:#4a3f2c;
+  --stamp:#8f2116;
+  --stamp-deep:#5e140c;
+  --gold:#a8823c;
+  --bone:#e8dfc8;
+  --void:#0d0a07;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Cutive Mono',monospace;
+  color:var(--ink);
+  background:var(--void);
+  line-height:1.65;
+  padding:clamp(16px,4vw,48px) 0;
+  min-height:100vh;
+}
+
+/* the single sheet */
+.sheet{
+  max-width:820px;
+  margin:0 auto;
+  background:var(--paper);
+  background-image:
+    radial-gradient(ellipse at 20% 8%, rgba(0,0,0,.05), transparent 60%),
+    radial-gradient(ellipse at 82% 96%, rgba(90,60,20,.12), transparent 55%),
+    radial-gradient(ellipse at 90% 20%, rgba(90,60,20,.06), transparent 50%);
+  padding:clamp(30px,6vw,68px) clamp(24px,7vw,74px);
+  position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+  border:1px solid rgba(0,0,0,.2);
+}
+/* fibrous paper texture */
+.sheet::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:
+    repeating-linear-gradient(0deg, rgba(120,100,60,.05) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(90deg, rgba(120,100,60,.04) 0 3px, transparent 3px 6px);
+  mix-blend-mode:multiply;
+}
+/* torn/aged vignette edge */
+.sheet::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 120px rgba(70,50,20,.30), inset 0 0 30px rgba(70,50,20,.20);
+}
+.sheet > *{position:relative;z-index:2}
+
+/* wax-seal-ish corner stamp */
+.classmark{
+  position:absolute;top:22px;right:20px;z-index:3;
+  font-family:'Special Elite',monospace;color:var(--stamp);
+  border:3px solid var(--stamp);border-radius:4px;
+  padding:.3em .6em;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  transform:rotate(7deg);opacity:.72;mix-blend-mode:multiply;
+  box-shadow:inset 0 0 0 1px var(--stamp);line-height:1.3;text-align:center;
+}
+
+/* ---- masthead ---- */
+.eyebrow{
+  font-family:'Special Elite',monospace;
+  font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--stamp);text-align:center;display:block;margin-bottom:.5rem;
+}
+.title{
+  font-family:'IM Fell English SC',serif;
+  font-size:clamp(2.8rem,10vw,5rem);
+  text-align:center;line-height:.95;color:var(--ink);
+  letter-spacing:.01em;margin-bottom:.3rem;
+}
+.subtitle{
+  font-family:'IM Fell English',serif;font-style:italic;
+  text-align:center;font-size:clamp(1rem,3vw,1.3rem);
+  color:var(--stamp-deep);
+  padding-bottom:1.2rem;margin-bottom:1.6rem;
+  border-bottom:2px solid var(--gold);
+}
+
+/* ---- prose ---- */
+.lead{
+  font-family:'IM Fell English',serif;font-style:italic;
+  font-size:clamp(1.15rem,3.2vw,1.4rem);
+  color:var(--ink);margin-bottom:1rem;text-align:center;
+}
+.body-fell{font-family:'IM Fell English',serif;font-size:1.1rem;line-height:1.7}
+p{margin-bottom:1rem}
+strong{font-weight:400;background:linear-gradient(transparent 55%, rgba(143,33,22,.30) 55%)}
+em{font-style:italic}
+
+.section-label{
+  font-family:'Special Elite',monospace;
+  font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--stamp);margin:1.8rem 0 .8rem;
+  padding-bottom:.35rem;border-bottom:1px solid rgba(0,0,0,.25);
+}
+
+/* ---- the four pillars grid ---- */
+.pillars{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.4rem 0 .6rem;
+}
+@media(max-width:600px){.pillars{grid-template-columns:1fr}}
+.pillar{
+  border-left:4px solid var(--stamp);
+  background:rgba(143,33,22,.08);
+  padding:14px 18px;
+}
+.pillar h3{
+  font-family:'Special Elite',monospace;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--stamp);margin-bottom:.5rem;
+}
+.pillar p{font-size:.94rem;line-height:1.55;margin-bottom:0}
+
+/* ---- before you arrive box ---- */
+.arrive{
+  border-left:4px solid var(--gold);
+  background:rgba(168,130,60,.14);
+  padding:16px 20px;margin:1.6rem 0 .5rem;
+}
+.arrive h3{
+  font-family:'Special Elite',monospace;
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem;
+}
+.arrive p{font-size:1rem;line-height:1.6;margin-bottom:0}
+
+/* ---- closer ---- */
+.closer{text-align:center;margin-top:2rem}
+.closer .call{
+  font-family:'IM Fell English SC',serif;
+  font-size:clamp(1.2rem,3.4vw,1.6rem);
+  color:var(--stamp-deep);letter-spacing:.02em;margin-bottom:.5rem;
+}
+.closer .sign{
+  font-family:'Special Elite',monospace;
+  font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-soft);
+}
+
+/* subtle entrance */
+.fade{opacity:0;transform:translateY(18px);animation:rise .9s ease forwards}
+.fade:nth-child(2){animation-delay:.08s}
+.fade:nth-child(3){animation-delay:.16s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;animation:none}}
+
+/* print: clean single page */
+@media print{
+  body{background:#fff;padding:0}
+  .sheet{box-shadow:none;border:none;max-width:100%;background:var(--paper)}
+  .fade{opacity:1;transform:none;animation:none}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="classmark">A Private<br>Invitation</div>
+
+  <header class="fade">
+    <span class="eyebrow">For the esteemed horticulturist</span>
+    <h1 class="title">The Blooming</h1>
+    <p class="subtitle">A one-night Call of Cthulhu mystery · Dunwich, Massachusetts · 1921</p>
+  </header>
+
+  <section class="fade">
+    <p class="lead">You are a lover of rare and growing things. That is why the letter found you.</p>
+    <div class="body-fell">
+      <p>Once every fifteen years, a <em>Rothschild's Slipper Orchid</em> — the rarest bloom in the temperate world — opens for a single night. Tonight it will open on the grounds of a remote chateau above Dunwich, and a small handful of true horticulturists have been invited to witness it. You are one of them. You have never met the others. None of you quite recall how the Household learned your name.</p>
+      <p>A carriage waits at dusk. You have come a long way to see a flower. <strong>Whatever else you find up there, you will find it together.</strong></p>
+    </div>
+  </section>
+
+  <section class="fade">
+    <div class="section-label">What kind of game this is</div>
+    <p><em>Call of Cthulhu</em> is horror, not heroics. You play ordinary people — not warriors — who stumble onto things older and hungrier than the world admits. There is no "winning" by force. You survive by being <strong>curious, cautious, and clever</strong>, and sometimes you survive by knowing when to run. The fun is in the dread, the mystery, and what your character is willing to face.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <h3>Roll d100, under your skill</h3>
+        <p>To do something uncertain, roll percentile dice and try to roll <strong>under</strong> your skill rating. Higher skill, better odds. The Keeper tells you when to roll — you never need to memorize rules.</p>
+      </div>
+      <div class="pillar">
+        <h3>Investigate everything</h3>
+        <p>This is a mystery. Search rooms, read documents, question people, follow the details that feel <em>wrong</em>. Clues are how you stay alive — the story rewards attention, not aggression.</p>
+      </div>
+      <div class="pillar">
+        <h3>Sanity is a resource</h3>
+        <p>Your mind can be wounded like your body. Witnessing the impossible costs <strong>Sanity</strong>. Lose too much at once and your character may panic, freeze, or crack. Protect it — look away when you can.</p>
+      </div>
+      <div class="pillar">
+        <h3>Fear is the point</h3>
+        <p>You are meant to feel outmatched. Lean in. Play your character's dread honestly, make bad brave choices, and let the horror land. A frightened investigator is a story worth telling.</p>
+      </div>
+    </div>
+
+    <div class="arrive">
+      <h3>Before you arrive</h3>
+      <p>Come with a character you're happy to put in danger — this is a one-shot, and not everyone walks back down the hill. Trust your fellow investigators; you'll do best as a group. And when something horrifying happens, remember it's <em>supposed</em> to. Bring your curiosity, leave your bravado. The night will take care of the rest.</p>
+    </div>
+  </section>
+
+  <footer class="closer fade">
+    <p class="call">Come Saturday, the thirtieth of September.<br>Come alone. Speak of it to no one.</p>
+    <p class="sign">— The Household · Old Sentinel Hill · You Are Expected —</p>
+  </footer>
+</main>
+</body>
+</html>
