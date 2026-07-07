@@ -13,10 +13,10 @@
       "alt": "Invitation"
     },
     {
-      "label": "Keeper Notes",
-      "href": "keeper.html",
-      "icon": "assets/sandstone.png",
-      "alt": "Keeper"
+      "label": "Fleet 919",
+      "href": "http://discord.gg/fleet919",
+      "icon": "assets/919Basic.png ",
+      "alt": "Fleet 919"
     }
   ]
 }
