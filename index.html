@@ -63,23 +63,32 @@ body{
   width:min(120vw,900px);height:min(120vw,900px);
   transform:translate(-50%,-50%);
   background:radial-gradient(circle,
-      rgba(120,40,120,.30) 0%,
-      rgba(90,25,90,.18) 26%,
-      rgba(60,20,30,.10) 46%,
+      rgba(120,40,120,.25) 0%,
+      rgba(90,25,90,.16) 26%,
+      rgba(60,20,30,.08) 46%,
       transparent 66%);
   filter:blur(8px);
   animation:breathe 7s ease-in-out infinite;
-  pointer-events:none;z-index:0;
+  pointer-events:none;z-index:1;
 }
 .hero::after{
   content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
-  background:radial-gradient(ellipse at 50% 42%, transparent 30%, rgba(4,3,2,.65) 78%, #030201 100%);
+  background:radial-gradient(ellipse at 50% 42%, transparent 35%, rgba(4,3,2,.28) 70%, rgba(3,2,1,.70) 100%);
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url("./assets/orchidheader.png") center/cover no-repeat;
+  background-size:cover;
+  opacity:0.22;
+  filter:brightness(1.07) saturate(.78) blur(.7px);
+  transform:scale(1.02);
+  transition:opacity .25s ease, transform .25s ease;
 }
 @keyframes breathe{
   0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(.94)}
   50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}
 }
-.hero > *{position:relative;z-index:2}
+.hero > :not(.hero-bg):not(.scroll-cue){position:relative;z-index:2}
 .hero .eyebrow{
   font-family:'Special Elite',monospace;
   letter-spacing:.42em;text-transform:uppercase;
@@ -118,11 +127,13 @@ body{
 }
 .cta:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(150,30,15,.6), inset 0 1px 0 rgba(255,150,120,.45)}
 .scroll-cue{
-  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
-  font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
-  color:#6e6449;opacity:0;animation:fadeUp 1s ease 1.8s forwards, bob 2.4s ease-in-out 2s infinite;
+  position:fixed;bottom:38px;left:50%;transform:translateX(-50%);
+  z-index:101;font-family:'Special Elite',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+  color:#ffb9a0;opacity:0;animation:fadeUpX 1s ease 1.8s forwards, bob 2.4s ease-in-out 2s infinite;
+  text-shadow:0 0 24px rgba(210,70,50,.25), 0 0 6px rgba(255,120,90,.55);
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeUpX{from{opacity:0;transform:translateX(-50%) translateY(24px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
 /* ============ SECTIONS ============ */
@@ -130,9 +141,10 @@ section{padding:clamp(64px,11vh,120px) 0;position:relative}
 .band{
   font-family:'Special Elite',monospace;text-align:center;
   letter-spacing:.32em;text-transform:uppercase;
-  font-size:.72rem;color:var(--stamp-hi);margin-bottom:2.4rem;
+  font-size:.72rem;color:#f3e4c1;margin-bottom:2.4rem;
+  text-shadow:0 1px 4px rgba(0,0,0,.55);
 }
-.band::before,.band::after{content:"✦";margin:0 .8em;color:var(--gold);opacity:.7}
+.band::before,.band::after{content:"✦";margin:0 .8em;color:var(--gold);opacity:.85}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease, transform .9s ease}
 .reveal.seen{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
@@ -186,14 +198,14 @@ body{padding-top:100px}
 body.scroll-shrunk{padding-top:50px}
 
 /* ============ WALKING INTO ============ */
-.walk{background:linear-gradient(180deg, var(--void) 0%, var(--void-2) 100%)}
+.walk{background:linear-gradient(180deg, #14100c 0%, #1f1712 100%)}
 .walk .lines{max-width:760px;margin:0 auto;text-align:center}
 .walk .lines p{
   font-family:'IM Fell English',serif;
   font-size:clamp(1.3rem,4vw,2.1rem);line-height:1.5;color:#cabd9f;margin-bottom:1.5rem;
 }
 .walk .lines p .hot{color:var(--stamp-hi);font-style:italic}
-.walk .lines p:last-child{margin-bottom:0;color:#9c9075;font-size:clamp(1rem,2.8vw,1.3rem)}
+.walk .lines p:last-child{margin-bottom:0;color:#cabd9f;font-size:clamp(1.3rem,4vw,2.1rem)}
 
 /* ============ TEMPTATIONS ============ */
 .tempt{background:var(--char)}
@@ -243,7 +255,15 @@ body.scroll-shrunk{padding-top:50px}
 .evidence .hint{text-align:center;font-family:'IM Fell English',serif;font-style:italic;color:#8a7e63;font-size:1.05rem;margin:2rem auto 0;max-width:52ch}
 
 /* ============ SUMMONS ============ */
-.summons{background:radial-gradient(ellipse at 50% 30%, rgba(90,25,15,.30), var(--void) 62%);text-align:center}
+.summons{position:relative;background:radial-gradient(ellipse at 50% 30%, rgba(90,25,15,.30), var(--void) 62%);text-align:center;overflow:hidden}
+.summons::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                    radial-gradient(rgba(0,0,0,.06) 1px, transparent 1px);
+  background-size:12px 12px, 8px 8px;
+  opacity:.18;
+  mix-blend-mode:soft-light;
+}
+.summons > .wrap{position:relative;z-index:1}
 .summons h2{font-family:'Pinyon Script',cursive;font-size:clamp(3.4rem,13vw,6.5rem);line-height:.9;color:var(--bone);text-shadow:0 0 40px rgba(120,40,110,.4);margin-bottom:1rem}
 .summons .line{font-family:'IM Fell English',serif;font-style:italic;font-size:clamp(1.1rem,3vw,1.5rem);color:#c3b696;max-width:34ch;margin:0 auto 2.4rem}
 .seal-cta{
@@ -292,12 +312,20 @@ async function loadMenu() {
 window.addEventListener('scroll', function(){
   const header = document.querySelector('.sticky-header');
   const body = document.body;
+  const heroBg = document.querySelector('.hero-bg');
+  const fade = Math.max(0, Math.min(1, 1 - window.scrollY / 300));
+
   if(window.scrollY > 50){
     header.classList.add('shrink');
     body.classList.add('scroll-shrunk');
   } else {
     header.classList.remove('shrink');
     body.classList.remove('scroll-shrunk');
+  }
+
+  if(heroBg){
+    heroBg.style.opacity = (fade * 0.14).toFixed(3);
+    heroBg.style.transform = `scale(${1 + (1 - fade) * 0.04})`;
   }
 });
 
@@ -311,6 +339,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
 </header>
 
 <header class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
   <span class="eyebrow">A Call of Cthulhu one-shot</span>
   <h1>The Blooming</h1>
   <p class="tagline">Four strangers. One flower. One night that does not end the way anyone was promised.</p>
@@ -326,7 +355,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
       <p class="reveal">A rotting town that goes quiet when you ask directions — and <span class="hot">will not</span> walk you up the hill.</p>
       <p class="reveal">A house at the end of the road that somehow already <span class="hot">knows your name.</span></p>
       <p class="reveal">And a rare and beautiful bloom, opening for one night only, that is not a flower at all — but a <span class="hot">countdown.</span></p>
-      <p class="reveal">You came a long way to see something wondrous. You will. That is the problem.</p>
+      <p class="reveal">You came a long way to see something wondrous. You will. <span class="hot">That is the problem.</span></p>
     </div>
   </div>
 </section>
