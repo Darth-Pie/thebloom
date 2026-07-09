@@ -1,14 +1,23 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "thebloom",
+  "main": "src/worker.js",
   "compatibility_date": "2026-07-07",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "secrets_store_secrets": [
+    {
+      "binding": "AUTH_SECRET",
+      "store_id": "66787472c7c24607b228c9cef06da89d",
+      "secret_name": "keeper-auth-secret"
+    }
   ]
 }
