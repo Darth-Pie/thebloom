@@ -41,7 +41,7 @@ function getCookie(request, name) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === '/keeper.html') {
+    if (url.pathname === '/keeper.html' || url.pathname === '/keeper') {
       const token = getCookie(request, COOKIE_NAME);
       const authSecret = await env.AUTH_SECRET.get();
       const session = await verifyToken(token, authSecret);
