@@ -43,7 +43,8 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === '/keeper.html') {
       const token = getCookie(request, COOKIE_NAME);
-      const session = await verifyToken(token, env.AUTH_SECRET);
+      const authSecret = await env.AUTH_SECRET.get();
+      const session = await verifyToken(token, authSecret);
       if (!session) {
         return Response.redirect(LOGIN_URL, 302);
       }
