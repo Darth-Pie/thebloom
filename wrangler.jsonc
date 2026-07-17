@@ -9,7 +9,12 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    "run_worker_first": ["/keeper.html", "/keeper"]
+    "run_worker_first": [
+      "/keeper.html",
+      "/keeper",
+      "/The-Blooming-Keepers-Reference.docx",
+      "/The-Blooming-Keepers-Reference.pdf"
+    ]
   },
   "compatibility_flags": [
     "nodejs_compat"

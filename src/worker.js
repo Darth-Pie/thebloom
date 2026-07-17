@@ -1,9 +1,16 @@
-// Gates /keeper.html behind the "Keeper's Secrets" login on 919gaming.com.
-// Verifies the same signed cookie that Worker sets (shared AUTH_SECRET);
-// everything else passes through to the static site untouched.
+// Gates /keeper.html and the Keeper's Reference docs behind the
+// "Keeper's Secrets" login on 919gaming.com. Verifies the same signed
+// cookie that Worker sets (shared AUTH_SECRET); everything else passes
+// through to the static site untouched.
 
 const LOGIN_URL = 'https://919gaming.com/keepers-secrets';
 const COOKIE_NAME = 'keeper_auth';
+const GATED_PATHS = new Set([
+  '/keeper.html',
+  '/keeper',
+  '/The-Blooming-Keepers-Reference.docx',
+  '/The-Blooming-Keepers-Reference.pdf'
+]);
 
 function b64urlToBuf(str) {
   str = str.replace(/-/g, '+').replace(/_/g, '/');
@@ -41,7 +48,7 @@ function getCookie(request, name) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === '/keeper.html' || url.pathname === '/keeper') {
+    if (GATED_PATHS.has(url.pathname)) {
       const token = getCookie(request, COOKIE_NAME);
       const authSecret = await env.AUTH_SECRET.get();
       const session = await verifyToken(token, authSecret);
