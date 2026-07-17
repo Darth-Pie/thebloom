@@ -12,6 +12,28 @@ const GATED_PATHS = new Set([
   '/The-Blooming-Keepers-Reference.pdf'
 ]);
 
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data:",
+  "connect-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'"
+].join('; ');
+
+function withSecurityHeaders(response) {
+  const headers = new Headers(response.headers);
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  headers.set('X-Frame-Options', 'DENY');
+  headers.set('Content-Security-Policy', CSP);
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 function b64urlToBuf(str) {
   str = str.replace(/-/g, '+').replace(/_/g, '/');
   while (str.length % 4) str += '=';
@@ -53,9 +75,9 @@ export default {
       const authSecret = await env.AUTH_SECRET.get();
       const session = await verifyToken(token, authSecret);
       if (!session) {
-        return Response.redirect(LOGIN_URL, 302);
+        return withSecurityHeaders(Response.redirect(LOGIN_URL, 302));
       }
     }
-    return env.ASSETS.fetch(request);
+    return withSecurityHeaders(await env.ASSETS.fetch(request));
   }
 };
