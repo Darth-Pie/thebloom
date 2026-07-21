@@ -293,6 +293,20 @@ async function loadMenu() {
       `;
       headerNav.appendChild(navSection);
     });
+
+    // Keeper login-aware nav item: goes straight to keeper.html if the
+    // shared keeper_auth cookie is valid, or to the Discord login if not.
+    let loggedIn = false;
+    try {
+      const statusRes = await fetch('/keeper-status');
+      loggedIn = statusRes.ok && (await statusRes.json()).loggedIn;
+    } catch (e) { /* treat as logged out */ }
+    const keeperSection = document.createElement('div');
+    keeperSection.className = 'nav-section';
+    keeperSection.innerHTML = loggedIn
+      ? `<img src="assets/sandstone.png" alt="The Keeper" class="nav-icon"><a href="keeper.html">The Keeper</a>`
+      : `<img src="assets/sandstone.png" alt="Keeper Login" class="nav-icon"><a href="https://919gaming.com/keepers-secrets?return_to=${encodeURIComponent(location.origin + '/keeper.html')}">Keeper Login</a>`;
+    headerNav.appendChild(keeperSection);
   } catch (error) {
     console.error('Error loading menu:', error);
   }

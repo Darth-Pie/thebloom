@@ -50,10 +50,10 @@ async function verifyToken(token, secret) {
   const parts = token.split('.');
   if (parts.length !== 2) return null;
   const [payload, sig] = parts;
-  const key = await hmacKey(secret);
-  const valid = await crypto.subtle.verify('HMAC', key, b64urlToBuf(sig), new TextEncoder().encode(payload));
-  if (!valid) return null;
   try {
+    const key = await hmacKey(secret);
+    const valid = await crypto.subtle.verify('HMAC', key, b64urlToBuf(sig), new TextEncoder().encode(payload));
+    if (!valid) return null;
     const obj = JSON.parse(new TextDecoder().decode(b64urlToBuf(payload)));
     if (obj.exp && obj.exp < Math.floor(Date.now() / 1000)) return null;
     return obj;
@@ -70,6 +70,16 @@ function getCookie(request, name) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    if (url.pathname === '/keeper-status' && request.method === 'GET') {
+      const token = getCookie(request, COOKIE_NAME);
+      const authSecret = await env.AUTH_SECRET.get();
+      const session = await verifyToken(token, authSecret);
+      return withSecurityHeaders(new Response(JSON.stringify({ loggedIn: !!session }), {
+        headers: { 'content-type': 'application/json', 'cache-control': 'no-store, private' }
+      }));
+    }
+
     if (GATED_PATHS.has(url.pathname)) {
       const token = getCookie(request, COOKIE_NAME);
       const authSecret = await env.AUTH_SECRET.get();

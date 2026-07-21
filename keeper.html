@@ -36,6 +36,7 @@
   --bone:#e8dfc8;
   --void:#0d0a07;
   --gold:#a8823c;
+  --sub:#7a6a45;          /* muted rung — "subtle" pass */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -158,6 +159,56 @@ em{font-style:italic}
 .truth{border:2px solid var(--stamp-deep);background:rgba(94,20,12,.1);padding:20px 24px;margin:1.6rem 0}
 .truth .lbl{font-family:'Special Elite';color:var(--stamp-deep);letter-spacing:.2em;
   font-size:.72rem;text-transform:uppercase;display:block;margin-bottom:.6rem}
+
+/* gold variant of the keeper callout — for governing rules, not just tips */
+.keeper.gold{border-left-color:var(--gold);background:rgba(168,130,60,.14)}
+.keeper.gold .lbl{color:var(--gold)}
+.leaf.d4 .keeper.gold,.leaf.d5 .keeper.gold,.leaf.d6 .keeper.gold{border-left-color:#c9a35c;background:rgba(200,160,80,.12)}
+.leaf.d4 .keeper.gold .lbl,.leaf.d5 .keeper.gold .lbl,.leaf.d6 .keeper.gold .lbl{color:#d9b877}
+
+/* dread curve — where the night's fear is spent */
+.curve{display:flex;gap:3px;margin:.5rem 0 1.4rem;align-items:flex-end;height:64px}
+.curve div{flex:1;background:linear-gradient(180deg,var(--stamp),var(--stamp-deep));position:relative}
+.curve div span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;
+  font-family:'Special Elite';font-size:.54rem;letter-spacing:.08em;color:var(--ink-soft)}
+.curve-wrap{margin-bottom:2rem}
+
+/* rule-of-three clue ladder */
+.clue-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin:2rem 0 .2rem}
+.clue-head h3{margin:0}
+.clue-head h3::before{content:none}
+.crit{font-family:'Special Elite';font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--stamp);color:var(--bone);padding:.18em .6em}
+.crit.opt{background:#6b6151}
+.ladder{margin:1rem 0 1.6rem;border:1px solid rgba(0,0,0,.25);background:rgba(255,255,255,.10)}
+.rung{display:flex;gap:0;border-bottom:1px solid rgba(0,0,0,.18)}
+.rung:last-child{border-bottom:none}
+.rung .n{flex:0 0 78px;padding:14px 10px;text-align:center;
+  font-family:'Special Elite';font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;line-height:1.35;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rung.r1 .n{background:var(--sub)}
+.rung.r2 .n{background:var(--gold)}
+.rung.r3 .n{background:var(--stamp)}
+.rung .n b{font-size:1.2rem;display:block;font-weight:400;margin-bottom:2px}
+.rung .c{flex:1;padding:12px 16px;font-size:.9rem;line-height:1.6}
+.rung .c .where{font-family:'Special Elite';font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);display:block;margin-bottom:.3rem}
+.leaf.d4 .rung .c .where,.leaf.d5 .rung .c .where,.leaf.d6 .rung .c .where{color:#d17a55}
+@media(max-width:560px){.rung{flex-direction:column}.rung .n{flex:auto;padding:8px;flex-direction:row;gap:8px}.rung .n b{margin:0}}
+
+/* steal-able read-aloud line */
+.aloud{background:#1a150e;color:#e6dcc2;border:1px solid #000;padding:14px 18px;margin:.8rem 0 1.2rem;
+  font-family:'IM Fell English',serif;font-style:italic;font-size:1rem;line-height:1.7;position:relative}
+.aloud .tag{position:absolute;top:-.72em;left:14px;background:var(--stamp);color:var(--bone);
+  font-family:'Special Elite';font-style:normal;font-size:.56rem;letter-spacing:.16em;padding:.15em .6em;text-transform:uppercase}
+
+/* scare-type tag, next to the beat it marks */
+.scare{font-family:'Special Elite';font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--bruise);color:var(--bone);padding:.2em .65em;display:inline-block;margin-left:.6em;vertical-align:middle}
+
+/* quiet cross-reference tag — "this is clue X, pass N" pointing at a ladder elsewhere */
+.pass-ref{font-family:'Special Elite';font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--stamp);border:1px solid currentColor;padding:.15em .55em;display:inline-block;margin-left:.6em;vertical-align:middle}
+.leaf.d4 .pass-ref,.leaf.d5 .pass-ref,.leaf.d6 .pass-ref{color:#d17a55}
 
 /* evidence photos */
 .evidence{margin:1.8rem 0;position:relative;display:inline-block;max-width:100%}
@@ -302,6 +353,20 @@ async function loadMenu() {
       `;
       headerNav.appendChild(navSection);
     });
+
+    // Keeper login-aware nav item: goes straight to keeper.html if the
+    // shared keeper_auth cookie is valid, or to the Discord login if not.
+    let loggedIn = false;
+    try {
+      const statusRes = await fetch('/keeper-status');
+      loggedIn = statusRes.ok && (await statusRes.json()).loggedIn;
+    } catch (e) { /* treat as logged out */ }
+    const keeperSection = document.createElement('div');
+    keeperSection.className = 'nav-section';
+    keeperSection.innerHTML = loggedIn
+      ? `<img src="assets/sandstone.png" alt="The Keeper" class="nav-icon"><a href="keeper.html">The Keeper</a>`
+      : `<img src="assets/sandstone.png" alt="Keeper Login" class="nav-icon"><a href="https://919gaming.com/keepers-secrets?return_to=${encodeURIComponent(location.origin + '/keeper.html')}">Keeper Login</a>`;
+    headerNav.appendChild(keeperSection);
   } catch (error) {
     console.error('Error loading menu:', error);
   }
@@ -402,6 +467,61 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="lbl">The Blooming's escalation curve</span>
     <p>This casefile is deliberately laid out to darken as you scroll — the pages yellow, then rot, then go to black. Run the <em>session</em> the same way. Below, each act carries a <strong>dread meter</strong> (●●●○○). Pace your descriptions to it. Don't spend your best horror in Act I. Let it earn its way up.</p>
   </div>
+
+  <h3 class="rise">The shape of the night</h3>
+  <p class="rise">Dread is a <em>curve</em>, not a level. Five hard scares beats fifteen medium ones, because the quiet stretches are what make the spikes land. Here's the intended shape across the whole night — the tall bars are where you spend:</p>
+  <div class="curve-wrap rise">
+    <div class="curve">
+      <div style="height:14%"><span>I · TOWN</span></div>
+      <div style="height:26%"><span>II · STUDY</span></div>
+      <div style="height:38%"><span>III · HOUSE</span></div>
+      <div style="height:62%"><span>LOCKED IN</span></div>
+      <div style="height:88%"><span>IV · SUITE</span></div>
+      <div style="height:74%"><span>V · DUNGEON</span></div>
+      <div style="height:100%"><span>THE END</span></div>
+    </div>
+  </div>
+
+  <div class="keeper gold rise">
+    <span class="lbl">The governing rule</span>
+    <p><strong>Never spend a big scare in Act I.</strong> The first hour should feel almost cozy — hobbyists on a field trip. If the players are relaxed and joking at the 45-minute mark, you are doing it correctly. Everything you hold back early, you get to spend later at triple value. Watch for a small tag like <span class="scare">Scare 5 · Horror</span> against the beats below — it marks where that budget gets spent, and how hard.</p>
+  </div>
+
+  <h3 class="rise">How to actually deliver a scare</h3>
+  <ol class="rise" style="margin:.6rem 0 1.2rem 1.2rem">
+    <li><strong>Slow down.</strong> Drop your pace and volume before the reveal. The table will lean in — that's the tell it's working.</li>
+    <li><strong>Three strokes, then stop.</strong> Describe in three precise details and let silence do the fourth.</li>
+    <li><strong>Make them roll after, not before.</strong> Narrate the horror, <em>then</em> call for Sanity. The dice punctuate the moment instead of telegraphing it.</li>
+    <li><strong>Target one player.</strong> "You — you're closest. What do you do?" Isolating one person makes the whole table feel exposed.</li>
+    <li><strong>Then go quiet.</strong> Give a mundane beat immediately after. The nervous-system reset is what makes the next spike land.</li>
+  </ol>
+
+  <div class="keeper rise">
+    <span class="lbl">Watch the table, not the script</span>
+    <p>If someone goes genuinely quiet or looks rattled, that's the effect working — not a cue to pile on. Ease off, let them re-engage on their own terms. Say up front that anyone can call for a pause; knowing the exit exists is what lets people walk further in.</p>
+  </div>
+
+  <h3 class="rise">The rule of three, applied to clues</h3>
+  <p class="rise">Every <strong>critical</strong> clue in this casefile is seeded three times as you read down through the acts: <strong>subtle</strong> (atmosphere they may not register), <strong>matter-of-fact</strong> (a plain detail they can act on), and <strong>"hey dummy"</strong> (impossible to miss). Deliver pass 1 free, pass 2 on any reasonable look, and pass 3 the moment the table stalls. You'll see the ladder marked like this at each pass:</p>
+  <div class="ladder rise">
+    <div class="rung r1"><div class="n"><b>1</b>Subtle</div><div class="c"><span class="where">example</span>Atmosphere only — mention it once and move on.</div></div>
+    <div class="rung r2"><div class="n"><b>2</b>Matter-of-fact</div><div class="c"><span class="where">example</span>A plain fact of the scene, stated outright or found on a check.</div></div>
+    <div class="rung r3"><div class="n"><b>3</b>Hey dummy</div><div class="c"><span class="where">example</span>Unmissable. Give it to them if they've stalled.</div></div>
+  </div>
+
+  <div class="keeper gold rise">
+    <span class="lbl">Never gate a critical clue behind a roll</span>
+    <p>Rolls should determine <em>how fast</em> or <em>how much</em>, never <em>whether</em>. If a SEARCH fails, they don't miss the clue — they get pass 3 instead, later, louder. Failure changes the delivery, not the availability.</p>
+  </div>
+
+  <h3 class="rise">When the table stalls</h3>
+  <ul class="plain rise">
+    <li><strong>Escalate the pass, don't add clues.</strong> Jump straight to the "hey dummy" version rather than inventing new material.</li>
+    <li><strong>Use Reginald.</strong> He can honestly volunteer a fact — he genuinely doesn't know what it means. The perfect unwitting signpost.</li>
+    <li><strong>Move the environment.</strong> A door that's now open. A smell from the east. Cold air. The house nudges.</li>
+    <li><strong>Ask them.</strong> <em>"What's bothering you most about this house?"</em> Their answer tells you which thread to tug.</li>
+    <li><strong>Spend a scare.</strong> A jolt resets attention and buys you a fresh scene to hide pass 3 inside.</li>
+  </ul>
 </section>
 
 <!-- ===================== THE SECRET TRUTH ===================== -->
@@ -458,12 +578,12 @@ window.addEventListener('DOMContentLoaded', loadMenu);
 
   <div class="keeper rise">
     <span class="lbl">Cozy, then wrong</span>
-    <p>Play Act I gentle. Let the horticulturists geek out about the orchid, compare their invitations, discover their shared obsession. Seed <strong>three quiet wrongnesses</strong> and never underline them: (1) nobody in town will meet their eyes; (2) every reference to the estate is spoken as "up there," never by name; (3) the invitations are written in the same hand, though the players received them separately.</p>
+    <p>Play Act I gentle. Let the horticulturists geek out about the orchid, compare their invitations, discover their shared obsession. Seed <strong>three quiet wrongnesses</strong> and never underline them: (1) nobody in town will meet their eyes; (2) every reference to the estate is spoken as "up there," never by name; (3) the invitations are written in the same hand — full names, including middle names, or a family name one of them hasn't used in years — though the players received them separately. Nobody remembers signing up for anything.</p>
   </div>
 
   <div class="grid2">
     <div class="evidence pin tilt rise">
-      
+
       <img src="assets/zebulon.png" alt="Zebulon Whately">
       <div class="cap">Zebulon Whately · the guide</div>
     </div>
@@ -475,8 +595,19 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </div>
 
   <div class="keeper rise">
-    <span class="lbl">If players push Zebulon</span>
-    <p>He knows exactly what the house is and wants no part of it. Under real pressure he offers one line, flat and final: <em>"Folk who go up for the flower don't come down. Company's been going up longer'n the town's been dyin'. You want my advice? Miss it."</em> Then he closes the store.</p>
+    <span class="lbl">If players push Zebulon <span class="scare">Scare 1 · Unease</span></span>
+    <p>He knows exactly what the house is and wants no part of it. Under real pressure he offers one line, flat and final: <em>"Folk who go up for the flower don't come down. Company's been going up longer'n the town's been dyin'. You want my advice? Miss it."</em> Then he closes the store behind them — the first hard edge of the night, gentle enough not to break the "cozy" you've been building, sharp enough that a sharp table will feel it.</p>
+  </div>
+
+  <div class="clue-head rise">
+    <h3>Clue — the investigators were chosen by blood</h3>
+    <span class="crit">Critical</span>
+  </div>
+  <p class="small rise">The heart of the scenario. If they miss this, the ending is just a weird night instead of a trap closing. Seeded here, paid off in Act II and Act V below.</p>
+  <div class="ladder rise">
+    <div class="rung r1"><div class="n"><b>1</b>Subtle</div><div class="c"><span class="where">Act I · comparing invitations, above</span>The same hand, full names including ones they don't use. Let it sit as a curiosity, not a clue.</div></div>
+    <div class="rung r2"><div class="n"><b>2</b>Matter-of-fact</div><div class="c"><span class="where">Act II · the Study</span>Reginald, asked how they were selected, is honest and unhelpful: <em>"The Household provides the list. I am not told how the names are chosen."</em> A ledger on the shelf lists guest parties by year — 1845, 1902 — four names each time.</div></div>
+    <div class="rung r3"><div class="n"><b>3</b>Hey dummy</div><div class="c"><span class="where">Act V · the Conference Room</span>Portraits back to the early 1600s — and among the old faces, <strong>their own families.</strong> A grandparent. A parent. Let it land in silence; the portraits are the explanation.</div></div>
   </div>
 </section>
 
@@ -488,6 +619,10 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
   </div>
   <span class="eyebrow rise">The house receives them · the wait for midnight</span>
+
+  <p class="rise">The chateau is built into the hillside; every corridor slopes faintly downward toward the east wing, and cold air moves from that direction. Mention it once as scene-setting, never again — it's the first stroke of Clue A below. The orchid in its conservatory is lit from every angle and tended obsessively, though nobody in the house seems to <em>enjoy</em> it; if the investigators pass it on the way in, Reginald checks his watch when he looks at it.</p>
+
+  <div class="aloud rise"><span class="tag">Pass 1 · the house</span>The hallway slopes. Not much — you'd miss it if you weren't tired. But every corridor in this house tilts the same direction, and the cold comes up from that end.</div>
 
   <div class="grid2">
     <div class="evidence pin tilt-r rise">
@@ -506,12 +641,42 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <p>He seems the one sane fixture in the house. That is the setup. His warmth is real and his ignorance is real — which makes his final turn land like a trapdoor. Give the players a reason to trust him tonight so it costs them later.</p>
   </div>
 
+  <p class="rise">If pressed on how the guests were chosen, Reginald is honest and unhelpful — <em>"The Household provides the list. I am not told how the names are chosen."</em> A ledger on the study shelf, if they think to check it, lists guest parties by year: <strong>1845, 1902</strong> — four names each time. <span class="small">(Clue — chosen by blood, pass 2. Pass 1 was the invitations back in Act I; pass 3 is the portraits waiting in Act V.)</span></p>
+
+  <div class="clue-head rise">
+    <h3>Clue — the house flows east and down</h3>
+    <span class="crit">Critical</span>
+  </div>
+  <p class="small rise">Leads them: Grand Room → Master Suite → Deck → dungeon. This is the physical spine of the night.</p>
+  <div class="ladder rise">
+    <div class="rung r1"><div class="n"><b>1</b>Subtle</div><div class="c"><span class="where">Now · atmosphere, above</span>The sloping corridors and cold air, mentioned once and never underlined.</div></div>
+    <div class="rung r2"><div class="n"><b>2</b>Matter-of-fact</div><div class="c"><span class="where">Act III · Grand Room, below</span>Faint scrubbed blood-stains in the floorboards, found on a SEARCH or SPOT check, draining east.</div></div>
+    <div class="rung r3"><div class="n"><b>3</b>Hey dummy</div><div class="c"><span class="where">Act IV · Master Suite</span>The same stains, now unmissable — everyone sees them without a roll, dragging toward the Deck.</div></div>
+  </div>
+
+  <div class="clue-head rise">
+    <h3>Clue — the orchid is a clock, not a flower</h3>
+    <span class="crit">Critical</span>
+  </div>
+  <p class="small rise">Converts the premise from "pretty event" to "countdown." Best delivered before midnight so the bloom lands as alarm, not spectacle.</p>
+  <div class="ladder rise">
+    <div class="rung r1"><div class="n"><b>1</b>Subtle</div><div class="c"><span class="where">Now · arrival, above</span>Tended obsessively, enjoyed by no one. Reginald checks his watch when he looks at it.</div></div>
+    <div class="rung r2"><div class="n"><b>2</b>Matter-of-fact</div><div class="c"><span class="where">Act III · Conservatory, below</span>The lunar charts are pinned around a fixed date, not a season. A horticulture check confirms this species does <em>not</em> bloom on a fifteen-year cycle — someone has been forcing it.</div></div>
+    <div class="rung r3"><div class="n"><b>3</b>Hey dummy</div><div class="c"><span class="where">Midnight · the Fountain, below</span>The bloom opens and the sky tears. The instant it opens, Reginald appears to collect them. The flower was the trigger.</div></div>
+  </div>
+
   <h3 class="rise">The Study — description to read aloud</h3>
   <p class="rise">Three walls are lined floor to ceiling with bookshelves: periodicals, dusty tomes, some bound in a leather that is not any animal you'd care to name. The fourth wall — nearest the Master Bedroom — is different. Accent lights converge from every angle on a single small <strong>white crystal</strong>, and to either side of it a reading table displays one book each, positioned to be found.</p>
 
-  <div class="keeper rise">
-    <span class="lbl">The room is a soft lock</span>
-    <p>Later in the night the investigators will be shut in here and must find the way out. The exit into the <strong>Master Suite</strong> opens only when the <em>Zanthu Tablets</em> are lifted from their table — a hidden mechanism engages. Anyone with <strong>SPOT 15+</strong> hears it click. Foreshadow the mechanism now; pay it off in Act III.</p>
+  <div class="clue-head rise">
+    <h3>Clue — the way out of the Study</h3>
+    <span class="crit">Critical</span>
+  </div>
+  <p class="small rise">A hard gate — if they don't solve it, the night stalls. Escalate this one fast; don't let it become a puzzle-lock. All three passes happen right here, so don't wait on another act to pay it off.</p>
+  <div class="ladder rise">
+    <div class="rung r1"><div class="n"><b>1</b>Subtle</div><div class="c"><span class="where">First entry</span>Two books sit on display tables, lit and <em>positioned to be found</em> — unlike everything else on the crowded shelves. Note the staging once.</div></div>
+    <div class="rung r2"><div class="n"><b>2</b>Matter-of-fact</div><div class="c"><span class="where">On lifting the Zanthu Tablets</span>A mechanism <em>clicks</em> in the wall (<strong>SPOT 15+</strong> hears it clearly). The exit into the Master Suite opens — the fourth wall, nearest the bedroom, is the only one without shelving. Foreshadow the mechanism now; pay it off in Act III's Sitting Room.</div></div>
+    <div class="rung r3"><div class="n"><b>3</b>Hey dummy</div><div class="c"><span class="where">If they stall 5+ minutes</span>Draft moves through the room; a thin seam of light shows along the bare wall where none was before. Someone's hand brushes the table and the book <em>shifts</em> of its own accord. Give it to them — the horror is beyond the door, not in the lock.</div></div>
   </div>
 
   <h3 class="rise">On the shelves — the Mary thread</h3>
@@ -527,12 +692,12 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <div class="cap">Found pressed in a tome · 31 Oct 1865</div>
   </div>
 
-  <h3 class="rise">The Crystal of the Elders</h3>
-  <p class="rise">A shining white crystal swirling with contained power. <span class="cost">Examination: 0/1 Sanity.</span> Picking it up "activates" it: <span class="cost">1d2/5d4 ability-score damage</span>, randomized across abilities by 1d4 each. On being lifted it <strong>disintegrates</strong> into a cloud of white spores that fill the room — one random investigator drops unconscious for <strong>1d10 minutes.</strong></p>
+  <h3 class="rise">The Crystal of the Elders <span class="scare">Scare 2 · Jolt</span></h3>
+  <p class="rise">A shining white crystal swirling with contained power. <span class="cost">Examination: 0/1 Sanity.</span> Picking it up "activates" it: <span class="cost">1d2/5d4 ability-score damage</span>, randomized across abilities by 1d4 each. On being lifted it <strong>disintegrates</strong> into a cloud of white spores that fill the room — one random investigator drops unconscious for <strong>1d10 minutes.</strong> The others watch it happen.</p>
 
   <div class="keeper rise">
-    <span class="lbl">Use the unconsciousness</span>
-    <p>The spore-sleep is a gift to your pacing. Drop a player under right before you want a scare, and let them wake to something already wrong — the others gone quiet, a door now open, Reginald standing too close.</p>
+    <span class="lbl">Use the unconsciousness <span class="scare">Scare 3 · Dread</span></span>
+    <p>The spore-sleep is a gift to your pacing. Drop a player under right before you want a scare, and let them wake to something already wrong — the others gone quiet, a door now open, Reginald standing too close. The wake-up itself is the scare: a room that changed while they were out.</p>
   </div>
 
   <h3 class="rise">The Tomes — spellbooks in disguise</h3>
@@ -548,6 +713,11 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="lbl">Full spell mechanics</span>
     <p>Costs and rules for all four spells are tabled in the <a href="#ref">Reference dossier</a> at the foot of the file, so they don't clutter the read-through. What matters in play: every one of these spells is a door, and every door in this house opens the wrong way.</p>
   </div>
+
+  <div class="keeper gold rise">
+    <span class="lbl">Run this live, at midnight <span class="scare">Scare 4 · Terror</span></span>
+    <p>While the investigators are still shut in the Study, this is the moment to play out Reginald's fate in real time — his murmuring outside the door, rising to screaming, then a wet, heavy <em>sploosh</em>, then blood seeping under the door. <span class="cost">0/1 Sanity.</span> Let them believe the worst happened <em>to</em> him. It didn't. It happened <em>through</em> him — the payoff waits at the very end of the night, in <a href="#act6">A New Birth</a>.</p>
+  </div>
 </section>
 
 <!-- ===================== ACT III — THE HOUSE WAKES ===================== -->
@@ -561,7 +731,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
 
   <p class="rise">If the investigators wander before midnight — or after they escape the Study — the chateau opens to them room by room. Each space adds one piece of the truth. Give them the freedom to explore; the house is confident it will keep them.</p>
 
-  <h3 class="rise">The Grand Room</h3>
+  <h3 class="rise">The Grand Room <span class="pass-ref">Clue A · pass 2</span></h3>
   <p class="rise">Faint blood-stains, scrubbed many times over, nearly invisible against dark wood. They are not decoration — they are <em>directional.</em></p>
   <table class="dtable rise">
     <tr><th>To notice</th><th>SEARCH (active)</th><th>SPOT (passive)</th></tr>
@@ -570,7 +740,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </table>
   <div class="keeper rise">
     <span class="lbl">The east wall is a promise</span>
-    <p>Everything in this house flows east and down — toward the Master Suite, the Deck, and the dungeon beneath. When a player traces the blood east, let them <em>feel</em> the pull of the architecture. The house has a stomach, and it's downhill.</p>
+    <p>Everything in this house flows east and down — toward the Master Suite, the Deck, and the dungeon beneath. When a player traces the blood east, let them <em>feel</em> the pull of the architecture. The house has a stomach, and it's downhill. State it plainly as a fact of the room — this is the matter-of-fact pass; the unmissable version waits in the Master Suite next act.</p>
   </div>
 
   <ul class="rooms rise">
@@ -594,12 +764,25 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <li>"Explain 1845??" <span class="small">(The last emergence — the night Mother was made.)</span></li>
   </ul>
 
-  <div class="keeper rise">
-    <span class="lbl">Let them solve the wrong puzzle</span>
-    <p>The sandstone and the "1959/Halloween" notes point at <em>31 October</em>. That's the trail the cult itself burned years on. Clever players will fixate on it — and it is a dead end. The real date is tonight, 1 October, new moon. The dramatic irony: while they're decoding the wrong Halloween, midnight is coming for the right one.</p>
+  <p class="rise"><span class="pass-ref">Clue C · pass 2</span> A horticulture check against the charts confirms this species does <em>not</em> bloom on a fifteen-year cycle — someone has been forcing it, on a schedule that has nothing to do with the plant.</p>
+
+  <div class="clue-head rise">
+    <h3>Clue — the date is tonight, not Halloween</h3>
+    <span class="crit opt">Optional</span>
+  </div>
+  <p class="small rise">The deliberate red herring. Let them chase 31 October — the trail the cult itself burned years on — but seed the correction so the truth is <em>available</em> if they push. The full mechanical answer already lives in <a href="#truth">the calendar cheat-sheet</a> above; this is the pacing for handing it out.</p>
+  <div class="ladder rise">
+    <div class="rung r1"><div class="n"><b>1</b>Subtle</div><div class="c"><span class="where">Act II · marginalia</span>A frantic hand keeps circling 30 September and 1 October, and writes of 31 October: <em>"doesn't make sense."</em> Someone before them already doubted the Halloween answer.</div></div>
+    <div class="rung r2"><div class="n"><b>2</b>Matter-of-fact</div><div class="c"><span class="where">Now · the notes above</span><em>"1902: no event"</em> — despite a new moon on both candidate dates that year. The pattern the cult expected did not hold. Something else decides the night.</div></div>
+    <div class="rung r3"><div class="n"><b>3</b>Hey dummy</div><div class="c"><span class="where">Only if they push hard</span>Cross-referencing the charts against tonight: <strong>1 October, new moon — and the guests are here.</strong> 1902 failed because the bloodline wasn't present. The variable was never the date alone. It was <em>them.</em></div></div>
   </div>
 
-  <h3 class="rise">The Fountain &amp; the Orchid</h3>
+  <div class="keeper rise">
+    <span class="lbl">Let them solve the wrong puzzle</span>
+    <p>The sandstone and the "1959/Halloween" notes point at <em>31 October</em>. Clever players will fixate on it — and it is a dead end. The dramatic irony: while they're decoding the wrong Halloween, midnight is coming for the right one. Never volunteer pass 3 above unless they genuinely push — this clue is optional, and confusion here is part of the intended texture, not a failure state.</p>
+  </div>
+
+  <h3 class="rise">The Fountain &amp; the Orchid <span class="pass-ref">Clue C · pass 3</span></h3>
   <p class="rise">At the heart of the grounds, the Rothschild's orchid stands wrapped in a strange light. When it blooms at midnight, the sky splits into a slow maelstrom of purple and red. The instant it opens, <strong>Reginald appears</strong> to gather the group and escort them "back to the Study for the viewing" — where he locks them in. The night has begun in earnest.</p>
 </section>
 
@@ -621,7 +804,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
 <div class="cap">Subject: "Mother" · do not approach</div>
     </div>
     <div class="rise">
-      <h3>What they see</h3>
+      <h3>What they see <span class="scare">Scare 5 · Horror</span></h3>
       <p>Strapped to the bed is a grotesque female form — an indistinct mass of sinew and fluid, headless, with mouths where hands should be. The bed is a swamp of gore and unnatural fluid. She births foul, half-formed things and repeats one shrieked line, over and over:</p>
       <div class="prop" style="text-align:center"><span class="tag">Mother speaks</span>“Care for the brood! CARE FOR THE BROOD!”</div>
       <p><span class="cost">Sanity on sight: 1d4 / 2d4.</span></p>
@@ -633,8 +816,9 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <p>Describe Mother in three precise strokes, then stop and let the players' imaginations do the rest — the pause after "mouths where her hands should be" is worse than any fourth sentence. Body-horror lands hardest when it's <em>specific and brief.</em> Watch the table; if someone's genuinely rattled, that's the effect working, not a reason to pile on.</p>
   </div>
 
-  <h3 class="rise">The blood leads on</h3>
+  <h3 class="rise">The blood leads on <span class="scare">Clue A · pass 3</span></h3>
   <p class="rise">The same directional stains reappear here — and this time they're easy to spot. Every investigator notices them, dark against the dark floor, dragging toward the <strong>northern wall and the Deck beyond.</strong> The house is still pointing downhill.</p>
+  <div class="aloud rise"><span class="tag">Pass 3 · the stains</span>You've been walking on it all night. Now that you're looking — really looking — the boards under your feet are darker in long streaks, all of them running the same way. Toward the east wall. Something was dragged through here more than once.</div>
 </section>
 
 <!-- ===================== ACT V — THE DUNGEON ===================== -->
@@ -669,9 +853,10 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   <p class="rise">Below, the walls are lined with runes and glyphs telling the story of the coming dark. Everything is algae-slick, cobwebbed, filthy — and <strong>hot</strong>. Unnaturally, wrongly hot, the heat of something alive and close. Read the rooms slow; the players should feel the temperature climb as they descend.</p>
 
   <div class="keeper rise">
-    <span class="lbl">The Conference Room — the gut-punch</span>
+    <span class="lbl">The Conference Room — the gut-punch <span class="pass-ref">Clue B · pass 3</span><span class="scare">Scare 6 · Existential</span></span>
     <p>Just left of the entry is a room of portraits dating to the founding of the colonies, early 1600s onward. Among the old faces the investigators find <strong>their own families</strong> — a grandparent here, a parent there. This is where a smart table realizes the invitation was never about a flower. They were bred for tonight. Let that dawn in silence; don't explain it. The portraits are the explanation.</p>
   </div>
+  <div class="aloud rise"><span class="tag">Pass 3 · the portraits</span>The faces go back three hundred years, and you'd have walked right past them — except one of you stops. Because that jaw, that brow, the particular set of those eyes: you have seen that face in a frame on your own mantelpiece.</div>
 
   <div class="grid2">
     <div class="evidence pin tilt rise">
@@ -721,13 +906,13 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </div>
   <span class="eyebrow rise">How the night closes</span>
 
-  <p class="rise">While the investigators were locked in the Study earlier, they heard Reginald outside, murmuring to someone unseen. Then screaming. Then a wet, heavy <em>sploosh</em>, and blood seeping under the door. <span class="cost">0/1 Sanity.</span> They assumed the worst had happened <em>to</em> him.</p>
+  <p class="rise"><span class="scare">Scare 4 · payoff</span> While the investigators were locked in the Study earlier, they heard Reginald outside, murmuring to someone unseen. Then screaming. Then a wet, heavy <em>sploosh</em>, and blood seeping under the door. <span class="cost">0/1 Sanity.</span> They assumed the worst had happened <em>to</em> him.</p>
 
   <p class="rise">It hadn't. It had happened <em>through</em> him.</p>
 
   <div class="truth rise">
-    <span class="lbl">✦ The final image</span>
-    <p>When the investigators reach the exit from the dungeon, they emerge to find Reginald standing naked beneath the vast maelstrom in the sky, gazing up in rapture. He hears them, turns, and — with a wide, gentle, genuinely welcoming smile — says the last words of the night:</p>
+    <span class="lbl">✦ The final image <span class="scare">Scare 7 · The drop</span></span>
+    <p>When the investigators reach the exit from the dungeon, they emerge to find Reginald standing naked beneath the vast maelstrom in the sky, gazing up in rapture. He hears them, turns, and — with a wide, gentle, genuinely welcoming smile — says the last words of the night. Slow down here more than anywhere else tonight — this line only works if you let the silence after it breathe.</p>
     <p style="text-align:center;font-family:'IM Fell English SC',serif;font-size:1.5rem;letter-spacing:.05em;color:#e0a074;margin:1.4rem 0">“Welcome… to a new birth.”</p>
     <p>Cut to black there. Do not narrate what comes next. The maelstrom, the orchid, the bloodline, Mother's brood, the god wearing the shape of a headless man — the investigators have arrived exactly on schedule, and the house has what it invited. <strong>This is how the scenario ends.</strong></p>
   </div>

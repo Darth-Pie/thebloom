@@ -11,12 +11,6 @@
       "href": "invitation.html",
       "icon": "assets/sandstone.png",
       "alt": "Invitation"
-    },
-    {
-      "label": "Fleet 919",
-      "href": "http://f919.org",
-      "icon": "assets/919Basic.png ",
-      "alt": "Fleet 919"
     }
   ]
 }
