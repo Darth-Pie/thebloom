@@ -210,6 +210,37 @@ em{font-style:italic}
   color:var(--stamp);border:1px solid currentColor;padding:.15em .55em;display:inline-block;margin-left:.6em;vertical-align:middle}
 .leaf.d4 .pass-ref,.leaf.d5 .pass-ref,.leaf.d6 .pass-ref{color:#d17a55}
 
+/* mood strip — one line under an act header saying how to play it */
+.mood{font-family:'Cutive Mono',monospace;font-size:.82rem;font-style:italic;opacity:.85;
+  margin:.5rem 0 1.6rem;padding-left:.9rem;border-left:2px solid var(--stamp)}
+.leaf.d4 .mood,.leaf.d5 .mood,.leaf.d6 .mood{border-left-color:#c96a4a}
+
+/* creature / NPC stat block */
+.stat{border:2px solid var(--ink);background:rgba(255,255,255,.14);padding:14px 18px;margin:1.2rem 0}
+.stat h4{font-family:'IM Fell English SC',serif;font-size:1.1rem;color:var(--ink);margin:0 0 .3rem;
+  border-bottom:1px solid rgba(0,0,0,.3);padding-bottom:.3rem}
+.stat .line{font-size:.86rem;line-height:1.9}
+.stat .line b{font-family:'Special Elite';font-size:.68rem;letter-spacing:.06em;color:var(--stamp)}
+.leaf.d4 .stat,.leaf.d5 .stat,.leaf.d6 .stat{border-color:#c96a4a;background:rgba(255,255,255,.06)}
+.leaf.d4 .stat h4,.leaf.d5 .stat h4,.leaf.d6 .stat h4{color:inherit}
+.leaf.d4 .stat .line b,.leaf.d5 .stat .line b,.leaf.d6 .stat .line b{color:#d17a55}
+
+/* run sheet — the single at-a-glance screen */
+.runsheet{border:2px solid var(--stamp-deep);background:rgba(94,20,12,.06);margin:1.2rem 0}
+.runsheet .rs-row{display:flex;border-bottom:1px dotted rgba(0,0,0,.25);padding:10px 16px;gap:14px;align-items:baseline}
+.runsheet .rs-row:last-child{border-bottom:none}
+.runsheet .rs-k{flex:0 0 108px;font-family:'Special Elite';font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--stamp-deep)}
+.runsheet .rs-v{flex:1;font-size:.88rem;line-height:1.7}
+@media(max-width:560px){.runsheet .rs-row{flex-direction:column;gap:2px}}
+
+/* pregenerated investigator card */
+.pregen{border:1px solid var(--edge, rgba(0,0,0,.28));background:rgba(255,255,255,.1);padding:16px 20px;margin:1.2rem 0}
+.pregen .pg-name{font-family:'IM Fell English SC',serif;font-size:1.25rem;margin-bottom:.1rem}
+.pregen .pg-occ{font-family:'Special Elite';font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--stamp);margin-bottom:.6rem}
+.pregen .pg-line{font-size:.86rem;margin-bottom:.35rem}
+.pregen .pg-line b{font-family:'Special Elite';font-size:.66rem;letter-spacing:.06em;color:var(--ink-soft)}
+.pregen .pg-secret{margin-top:.6rem;padding-top:.6rem;border-top:1px dashed rgba(0,0,0,.25);font-style:italic}
+
 /* evidence photos */
 .evidence{margin:1.8rem 0;position:relative;display:inline-block;max-width:100%}
 .evidence img{display:block;width:100%;filter:sepia(.35) contrast(1.02) brightness(.94);
@@ -396,14 +427,18 @@ window.addEventListener('DOMContentLoaded', loadMenu);
 <div id="corrupt-bar"></div>
 <nav class="toc" aria-label="Sections">
   <a href="#teaser" title="The Invitation"></a>
+  <a href="#runsheet" title="Run Sheet"></a>
   <a href="#brief" title="Keeper's Brief"></a>
   <a href="#truth" title="The Secret Truth"></a>
+  <a href="#cast" title="Cast &amp; Voices"></a>
+  <a href="#pregens" title="Pregenerated Investigators"></a>
   <a href="#act1" title="Act I — Dunwich"></a>
   <a href="#act2" title="Act II — The Study"></a>
   <a href="#act3" title="Act III — The House Wakes"></a>
   <a href="#act4" title="Act IV — Mother"></a>
   <a href="#act5" title="Act V — The Dungeon"></a>
   <a href="#act6" title="The Blooming"></a>
+  <a href="#stats" title="Stat Blocks"></a>
   <a href="#ref" title="Reference"></a>
 </nav>
 
@@ -436,6 +471,20 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </div>
 </section>
 
+<!-- ===================== RUN SHEET ===================== -->
+<section class="leaf d1" id="runsheet">
+  <span class="actno rise">Keeper's Eyes Only</span>
+  <h2 class="disp rise">Run Sheet</h2>
+  <p class="small rise" style="margin-bottom:1.6rem">The one screen you should need at a glance mid-session. Everything here is explained in full further down.</p>
+  <div class="runsheet rise">
+    <div class="rs-row"><div class="rs-k">Tonight</div><div class="rs-v"><strong>1 October, new moon</strong> — not 31 October. That date is the cult's own red herring; see the <a href="#truth">calendar cheat-sheet</a>.</div></div>
+    <div class="rs-row"><div class="rs-k">Run-time</div><div class="rs-v">~4 hours · 3–5 investigators · Call of Cthulhu</div></div>
+    <div class="rs-row"><div class="rs-k">7 scares</div><div class="rs-v">① Unease — Zebulon refuses (Act I) · ② Jolt — the crystal (Act II) · ③ Dread — the spore-sleep (Act II) · ④ Terror — the midnight scream (Act II, run live) · ⑤ Horror — Mother (Act IV) · ⑥ Existential — the portraits (Act V) · ⑦ The drop — Reginald's smile (The End)</div></div>
+    <div class="rs-row"><div class="rs-k">4 critical clues</div><div class="rs-v"><strong>A</strong> the house flows east &amp; down · <strong>B</strong> chosen by blood · <strong>C</strong> the orchid is a clock · <strong>D</strong> the way out of the Study — each gets three passes; never gate one behind a roll.</div></div>
+    <div class="rs-row"><div class="rs-k">Safety</div><div class="rs-v">Read the content/tools/aftercare line before invitations go out — full text in <a href="#brief">The Brief</a>.</div></div>
+  </div>
+</section>
+
 <!-- ===================== KEEPER'S BRIEF ===================== -->
 <section class="leaf d1" id="brief">
   <span class="actno rise">Keeper's Eyes Only</span>
@@ -453,6 +502,15 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   <div class="keeper rise">
     <span class="lbl">Tone at the table</span>
     <p>Open the session, out of character, with three lines: <em>"This is not D&amp;D. Bravery can get you killed. And by the end of tonight, at least one of you will not be entirely yourself."</em> Then explain Sanity, and never explain it again — let the mechanic do the talking.</p>
+  </div>
+
+  <h3 class="rise">Safety tools &amp; session zero</h3>
+  <p class="rise">This scenario carries body horror, forced birth and pregnancy imagery, gore, insanity, and a bleak, unwinnable ending. It earns two minutes up front and a stated way out during — say this before the invitations even come up:</p>
+  <div class="keeper gold rise">
+    <span class="lbl">Read this aloud before you start</span>
+    <p><strong>Content:</strong> body horror, forced birth and pregnancy imagery, gore, insanity, an unwinnable ending. Ask if anything's off the table for anyone.<br>
+    <strong>Tools:</strong> anyone may say <em>"pause"</em> at any moment, no explanation owed — take a beat, then continue or skip. Agree on lines (never appears) and veils (happens off-screen) up front.<br>
+    <strong>Aftercare:</strong> when you cut to black, don't just end the call. Take five minutes out of character — best moment, what people expected, how it landed. It ends the night on shared exhilaration rather than dread.</p>
   </div>
 
   <h3 class="rise">Sanity — the three thresholds</h3>
@@ -522,6 +580,19 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <li><strong>Ask them.</strong> <em>"What's bothering you most about this house?"</em> Their answer tells you which thread to tug.</li>
     <li><strong>Spend a scare.</strong> A jolt resets attention and buys you a fresh scene to hide pass 3 inside.</li>
   </ul>
+
+  <h3 class="rise">The night, by the clock</h3>
+  <p class="rise">You reference midnight constantly below — here's the whole evening laid against a clock, so when a player asks what time it is, you already know.</p>
+  <table class="dtable rise">
+    <tr><th>Time</th><th>Beat</th></tr>
+    <tr><td>~7:00 PM, 30 Sept</td><td>Dusk. Investigators meet at Osborn's; Zebulon gives directions.</td></tr>
+    <tr><td>~8:00 PM</td><td>Arrival at the chateau. Reginald receives them; the Study.</td></tr>
+    <tr><td>8:00–11:30 PM</td><td>Exploration. The house opens room by room.</td></tr>
+    <tr><td>11:45 PM</td><td>Reginald collects them "for the viewing." The Study locks.</td></tr>
+    <tr><td><strong>12:00 AM, 1 Oct</strong></td><td><strong>The orchid opens. The sky tears.</strong> The date turns.</td></tr>
+    <tr><td>12:00–2:00 AM</td><td>Master Suite, the Deck, the dungeon.</td></tr>
+    <tr><td>~2:30 AM</td><td>They emerge. Reginald is waiting. Cut to black.</td></tr>
+  </table>
 </section>
 
 <!-- ===================== THE SECRET TRUTH ===================== -->
@@ -565,6 +636,93 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </div>
 </section>
 
+<!-- ===================== CAST & VOICES ===================== -->
+<section class="leaf d1" id="cast">
+  <span class="actno rise">Keeper's Eyes Only</span>
+  <h2 class="disp rise">Cast &amp; Voices</h2>
+  <p class="small rise" style="margin-bottom:1.6rem">Who's in the house, and how to sound like them the instant you need to — before Act I, not on page 14.</p>
+
+  <ul class="plain rise">
+    <li><strong>Reginald</strong> — the butler. Sincere, exacting, ignorant by design. The house's hands. Opens the way at midnight and welcomes the dawn of "a new birth."</li>
+    <li><strong>Mother</strong> — the 1845 vessel, hollowed out and kept alive to birth Dark Ones. Strapped to the bed in the Master Suite. Says only: "Care for the brood."</li>
+    <li><strong>Zebulon Whately</strong> — Dunwich guide. Knows exactly what the hill is and gets the investigators there as fast as he can. Will not follow them up.</li>
+    <li><strong>Y'golonac</strong> — Great Old One. Headless body, mouths in the palms. Wants to be let in through a vessel of Mary's blood on the new moon of 1 October.</li>
+    <li><strong>The Household / the owners</strong> — never seen, possibly never real. Reginald's schedule appears from an unknown source. The true master is the god below.</li>
+  </ul>
+
+  <h3 class="rise">Voice &amp; mood, one line each</h3>
+  <p class="rise">Something you can grab in one second mid-scene, without breaking your own pacing to improvise a voice from scratch:</p>
+  <table class="dtable rise">
+    <tr><th>NPC</th><th>Voice</th><th>Posture / tic</th><th>Never</th></tr>
+    <tr><td><strong>Reginald</strong></td><td>Warm, measured, unhurried. Complete sentences. Answers exactly what was asked and nothing more.</td><td>Hands clasped. Slight bow before speaking. Checks his watch when the orchid comes up.</td><td>Never rushes. Never lies. Never seems afraid.</td></tr>
+    <tr><td><strong>Zebulon</strong></td><td>Clipped, rural, reluctant. Short sentences. Trails off.</td><td>Won't hold eye contact. Already moving away as he talks.</td><td>Never volunteers. Never comes up the hill.</td></tr>
+    <tr><td><strong>Mother</strong></td><td>One line, shrieked, repeated. No conversation.</td><td>—</td><td>Never coherent. Never answers.</td></tr>
+    <tr><td><strong>Soul Organ</strong></td><td>Many voices, overlapping, broken grammar. Read out of order.</td><td>Faces turn to follow individuals.</td><td>Never makes complete sense.</td></tr>
+  </table>
+
+  <div class="keeper rise">
+    <span class="lbl">Full stat blocks</span>
+    <p>Mother, the Dark One brood, and Reginald all have combat-ready stat blocks in <a href="#stats">Stat Blocks</a>, right after the acts — for the moment someone panics and swings at one of them.</p>
+  </div>
+</section>
+
+<!-- ===================== PREGENERATED INVESTIGATORS ===================== -->
+<section class="leaf d1" id="pregens">
+  <span class="actno rise">Keeper's Eyes Only</span>
+  <h2 class="disp rise">Pregenerated Investigators</h2>
+  <p class="rise">The hype page promises zero experience needed — this is what makes that true. Character creation can eat 45–60 minutes of a 4-hour night and blunts the whole cozy-opening strategy. Hand these out instead; five is enough to run 3–5 players with a spare.</p>
+
+  <div class="keeper gold rise">
+    <span class="lbl">The design trick that makes the ending hit</span>
+    <p>Each pregen carries a faint, half-remembered family connection to old New England money — one line on the sheet, like <em>"Your grandmother never spoke about her family's estate."</em> The player reads it at session start, forgets it, and then sees their own family in the Conference Room portraits in Act V. You get a personalized gut-punch for free, and you never had to improvise it.</p>
+  </div>
+
+  <div class="pregen rise">
+    <div class="pg-name">Eleanor Voss</div>
+    <div class="pg-occ">Botanist</div>
+    <div class="pg-line"><b>Skills</b> Botany 70% · Spot Hidden 55% · Library Use 60%</div>
+    <div class="pg-line"><b>Sanity</b> 55</div>
+    <div class="pg-line"><b>Hook</b> The Rothschild's Slipper Orchid is the one bloom she has chased her entire career. She would risk almost anything to be in the room when it opens.</div>
+    <div class="pg-secret">Your grandmother kept a locked diary that mentions "the Sentinel Hill estate" — every page about it has been razored out.</div>
+  </div>
+
+  <div class="pregen rise">
+    <div class="pg-name">Thomas "Tommy" Reyes</div>
+    <div class="pg-occ">Journalist</div>
+    <div class="pg-line"><b>Skills</b> Fast Talk 55% · Photography 60% · Spot Hidden 50%</div>
+    <div class="pg-line"><b>Sanity</b> 60</div>
+    <div class="pg-line"><b>Hook</b> Chasing a human-interest piece on "the last great flower show of the Gilded Age." Doesn't quite believe the invitation is real, which is exactly why he came.</div>
+    <div class="pg-secret">Buried in your notes is an 1902 clipping about a Dunwich society function that "never occurred." You filed it and forgot why it bothered you.</div>
+  </div>
+
+  <div class="pregen rise">
+    <div class="pg-name">Dr. Miriam Aldrich</div>
+    <div class="pg-occ">Physician (retired)</div>
+    <div class="pg-line"><b>Skills</b> Medicine 65% · First Aid 60% · Psychology 50%</div>
+    <div class="pg-line"><b>Sanity</b> 50</div>
+    <div class="pg-line"><b>Hook</b> Wants one more marvel to witness before she's done practicing. A once-in-fifteen-years bloom is exactly the kind of wonder she came out of retirement for.</div>
+    <div class="pg-secret">Decades ago you treated a dying patient who raved about "a house that eats calendars." You wrote it off as dementia. You still think about it sometimes.</div>
+  </div>
+
+  <div class="pregen rise">
+    <div class="pg-name">Julian Marsh</div>
+    <div class="pg-occ">Antiquarian &amp; rare-book dealer</div>
+    <div class="pg-line"><b>Skills</b> Library Use 65% · Appraise 60% · Occult 40%</div>
+    <div class="pg-line"><b>Sanity</b> 45</div>
+    <div class="pg-line"><b>Hook</b> Word reached him that the estate holds a first-edition botanical folio on the Rothschild orchid. He collects rarities; this one he'd cross an ocean for.</div>
+    <div class="pg-secret">Years ago you sold a private client a genealogy compendium on New England bloodlines. You never asked why they wanted it, and you never got their name.</div>
+  </div>
+
+  <div class="pregen rise">
+    <div class="pg-name">Constance "Connie" Bellweather</div>
+    <div class="pg-occ">Groundskeeper &amp; landscape gardener</div>
+    <div class="pg-line"><b>Skills</b> Botany 55% · Mechanical Repair 50% · Track 45%</div>
+    <div class="pg-line"><b>Sanity</b> 60</div>
+    <div class="pg-line"><b>Hook</b> Tends the grounds of an aging estate for a living. Feels a real kinship with anything left to rot that's still, stubbornly, trying to grow.</div>
+    <div class="pg-secret">The great-aunt who raised you forbade any mention of "the Bellweather land up north." You never once asked why, and now you can't remember why you never asked.</div>
+  </div>
+</section>
+
 <!-- ===================== ACT I — DUNWICH ===================== -->
 <section class="leaf d2" id="act1">
   <span class="actno rise">Act I</span>
@@ -573,8 +731,11 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
   </div>
   <span class="eyebrow rise">Early evening · 30 September 1921 · the light is going</span>
+  <div class="mood rise">Play it like: <strong>a pleasant field trip with one wrong note.</strong> Your voice: normal, warm, conversational. Table should feel: relaxed, joking.</div>
 
   <p class="rise">Each investigator has made their own way to Dunwich for the blooming. However they arrive, the town greets them the same way: a dilapidated center, buildings barely held together by vines and rot, the bones of a place that was once a real community and has been surrendering to the forest ever since. The air is one of destitution and quiet desperation. Let a player ask the question the town begs — <em>why is anyone still here?</em> — and give no answer.</p>
+
+  <div class="aloud rise"><span class="tag">Arriving in Dunwich</span>The road doesn't so much arrive in Dunwich as give up near it. Shutters hang by one hinge. What was once a green is mostly bramble now, and the few windows still lit go dark, one by one, as you pass. Nobody waves. Nobody looks long enough to be waved at.</div>
 
   <div class="keeper rise">
     <span class="lbl">Cozy, then wrong</span>
@@ -619,6 +780,9 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
   </div>
   <span class="eyebrow rise">The house receives them · the wait for midnight</span>
+  <div class="mood rise">Play it like: <strong>a stately house tour that overstays.</strong> Your voice: measured, unhurried. Table should feel: curious, slightly bored — that's good, it's the calm before "Locked In."</div>
+
+  <div class="aloud rise"><span class="tag">First sight of the chateau</span>The trees give way all at once, and there it is — bigger than the town below it, black against a sky going the colour of a bruise. Every window is dark but one. The gravel drive has been raked recently. Someone has been expecting company.</div>
 
   <p class="rise">The chateau is built into the hillside; every corridor slopes faintly downward toward the east wing, and cold air moves from that direction. Mention it once as scene-setting, never again — it's the first stroke of Clue A below. The orchid in its conservatory is lit from every angle and tended obsessively, though nobody in the house seems to <em>enjoy</em> it; if the investigators pass it on the way in, Reginald checks his watch when he looks at it.</p>
 
@@ -631,6 +795,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     </div>
     <div class="rise">
       <h3>Reginald greets you</h3>
+      <div class="aloud" style="font-size:.94rem"><span class="tag">Reginald opens the door</span>The door opens before you've finished knocking. A man in dark, exact clothing regards each of you in turn — not rudely, just thoroughly — and steps aside. "You're expected," he says, in a tone that makes the sentence sound older than it should.</div>
       <p>At the door stands Reginald — stoic, exacting, respectful. He ushers each arrival to the Study to await the blooming and withdraws. Near midnight he will return to collect them for the viewing.</p>
       <p>Play him as a man doing a job he only half understands. He does not grasp why <em>these</em> guests were summoned, only that they were. He does not know who owns the house. His instructions simply <em>appear</em>: once a week a schedule is left on a board in the Laundry, from a source he has never seen and will not discuss.</p>
     </div>
@@ -718,6 +883,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="lbl">Run this live, at midnight <span class="scare">Scare 4 · Terror</span></span>
     <p>While the investigators are still shut in the Study, this is the moment to play out Reginald's fate in real time — his murmuring outside the door, rising to screaming, then a wet, heavy <em>sploosh</em>, then blood seeping under the door. <span class="cost">0/1 Sanity.</span> Let them believe the worst happened <em>to</em> him. It didn't. It happened <em>through</em> him — the payoff waits at the very end of the night, in <a href="#act6">A New Birth</a>.</p>
   </div>
+  <div class="mood rise">This is "Locked In" on the dread curve above — <strong>the trap closing.</strong> Drop your volume, slow all the way down. This is the first real fear of the night; treat it that way.</div>
 </section>
 
 <!-- ===================== ACT III — THE HOUSE WAKES ===================== -->
@@ -728,6 +894,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
   </div>
   <span class="eyebrow rise">Exploring the ground floor · the wrongness surfaces</span>
+  <div class="mood rise">Play it like: <strong>a mystery with teeth.</strong> Your voice: quieter, longer pauses. Table should feel: alert, suspicious.</div>
 
   <p class="rise">If the investigators wander before midnight — or after they escape the Study — the chateau opens to them room by room. Each space adds one piece of the truth. Give them the freedom to explore; the house is confident it will keep them.</p>
 
@@ -749,6 +916,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </ul>
 
   <h3 class="rise">The Conservatory — the puzzle room</h3>
+  <div class="aloud rise"><span class="tag">The Conservatory</span>The room smells of wet paper and old brass. Every wall is papered in charts — moons, dates, tides — pinned three and four deep, the newest scrawled directly over the oldest. Someone has been counting for a very long time.</div>
   <p class="rise">A stand holds a single piece of etched sandstone, set deliberately <em>just</em> off-center — enough to itch. Glyphs ring its broken edge; around the center, in an unbroken circle, runs this script:</p>
 
   <div class="prop rise">
@@ -784,6 +952,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
 
   <h3 class="rise">The Fountain &amp; the Orchid <span class="pass-ref">Clue C · pass 3</span></h3>
   <p class="rise">At the heart of the grounds, the Rothschild's orchid stands wrapped in a strange light. When it blooms at midnight, the sky splits into a slow maelstrom of purple and red. The instant it opens, <strong>Reginald appears</strong> to gather the group and escort them "back to the Study for the viewing" — where he locks them in. The night has begun in earnest.</p>
+  <div class="aloud rise"><span class="tag">The orchid opens</span>The petals part all at once, not slow the way a flower should. For one heartbeat the garden holds its breath. Then the sky opens along a seam that was never there, and the colour that pours through has no name you'd want to say out loud.</div>
 </section>
 
 <!-- ===================== ACT IV — MOTHER ===================== -->
@@ -795,6 +964,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
   </div>
   <span class="eyebrow rise">The Master Suite · the first true horror</span>
+  <div class="mood rise">Play it like: <strong>the genre changing.</strong> Your voice: three strokes, then silence. Table should feel: shocked, quiet.</div>
 
   <p class="rise">Having escaped the Study through the mechanism, the investigators step into the Master Suite — and find what the house has been feeding. This is the hinge of the night. Everything before was atmosphere. This is the moment the genre changes at the table.</p>
 
@@ -808,6 +978,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
       <p>Strapped to the bed is a grotesque female form — an indistinct mass of sinew and fluid, headless, with mouths where hands should be. The bed is a swamp of gore and unnatural fluid. She births foul, half-formed things and repeats one shrieked line, over and over:</p>
       <div class="prop" style="text-align:center"><span class="tag">Mother speaks</span>“Care for the brood! CARE FOR THE BROOD!”</div>
       <p><span class="cost">Sanity on sight: 1d4 / 2d4.</span></p>
+      <p class="small">If someone panics and attacks — either her, or the brood she's birthing — full combat stats for both are in <a href="#stats">Stat Blocks</a>.</p>
     </div>
   </div>
 
@@ -829,6 +1000,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
   </div>
   <span class="eyebrow rise">The Northern Deck · the trapdoor · the dungeon</span>
+  <div class="mood rise">Play it like: <strong>descent — heat, wrongness, understanding.</strong> Your voice: slow, deliberate, heavy. Table should feel: dread plus dawning comprehension.</div>
 
   <div class="grid2">
     <div class="rise">
@@ -850,6 +1022,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
   </div>
 
   <h3 class="rise">The Dungeon</h3>
+  <div class="aloud rise"><span class="tag">Descending into the dungeon</span>The air changes three steps down. It's warm — not the warmth of a furnace, but of a body. The walls sweat. Somewhere below, water is moving, and under that, something that might be breathing.</div>
   <p class="rise">Below, the walls are lined with runes and glyphs telling the story of the coming dark. Everything is algae-slick, cobwebbed, filthy — and <strong>hot</strong>. Unnaturally, wrongly hot, the heat of something alive and close. Read the rooms slow; the players should feel the temperature climb as they descend.</p>
 
   <div class="keeper rise">
@@ -905,6 +1078,7 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <span class="dread"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
   </div>
   <span class="eyebrow rise">How the night closes</span>
+  <div class="mood rise">Play it like: <strong>the floor dropping out.</strong> Your voice: warm and gentle — that's the horror. Table should feel: stunned.</div>
 
   <p class="rise"><span class="scare">Scare 4 · payoff</span> While the investigators were locked in the Study earlier, they heard Reginald outside, murmuring to someone unseen. Then screaming. Then a wet, heavy <em>sploosh</em>, and blood seeping under the door. <span class="cost">0/1 Sanity.</span> They assumed the worst had happened <em>to</em> him.</p>
 
@@ -930,13 +1104,50 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     </div>
     <div>
       <p>The whole night, Reginald was the trustworthy one — the sane man in an insane house. That was the trap. He wasn't lying about not understanding the guests or the source of his instructions. He simply never needed to understand. He only needed to open the door at the right hour. He is the house's hands, and tonight his work is done.</p>
-      <p class="small">If any investigator befriended him in Act II, save that face — the warmth is real in his final smile, and that is the cruelest part.</p>
+      <p class="small">If any investigator befriended him in Act II, save that face — the warmth is real in his final smile, and that is the cruelest part. His stat block is in <a href="#stats">Stat Blocks</a> below, if it comes to that — though see the Keeper note there first.</p>
     </div>
   </div>
 </section>
 
+<!-- ===================== STAT BLOCKS ===================== -->
+<section class="leaf d1" id="stats">
+  <span class="actno rise">Appendix</span>
+  <h2 class="disp rise">Stat Blocks</h2>
+  <p class="small rise" style="margin-bottom:1.6rem">You have Sanity costs for everything and combat stats for nothing — until a panicked player swings at Mother, and someone always does. Own anchor, so you can jump here mid-fight instead of inventing numbers on the spot.</p>
+
+  <div class="stat rise">
+    <h4>Mother — the birthing vessel</h4>
+    <p class="line"><b>STR</b> 60 · <b>CON</b> 90 · <b>SIZ</b> 85 · <b>DEX</b> 20 · <b>HP</b> 17 · <b>Build</b> 2 · <b>Move</b> 2 (strapped; cannot pursue)<br>
+    <b>Attacks:</b> hand-mouth bite 45%, 1d6 + grapple. Only if someone comes within reach.<br>
+    <b>Armour:</b> none, but bloated mass — impaling weapons do minimum damage.<br>
+    <b>Sanity:</b> 1d4/2d4 on sight.<br>
+    <b>Keeper note:</b> She is <em>not</em> a fight. She's restrained and barely lucid. If players attack, she doesn't fight back — she <em>screams</em>, and the sound brings something up the stairs. Killing her is possible, easy, and horrifying; let that hang.</p>
+  </div>
+
+  <div class="stat rise">
+    <h4>Dark One (the brood) — 1d3 present, more birthing</h4>
+    <p class="line"><b>STR</b> 40 · <b>CON</b> 45 · <b>SIZ</b> 25 · <b>DEX</b> 65 · <b>HP</b> 7 · <b>Build</b> −1 · <b>Move</b> 8<br>
+    <b>Attacks:</b> claw/bite 40%, 1d4. Swarm: +10% per additional beyond the first.<br>
+    <b>Armour:</b> 1-point hide.<br>
+    <b>Sanity:</b> 0/1d4 each; 1/1d6 for a nest of them.<br>
+    <b>Keeper note:</b> Half-formed and clumsy — genuinely killable. Use them to give the party <em>one</em> winnable fight so the unwinnable ones read as different in kind.</p>
+  </div>
+
+  <div class="stat rise">
+    <h4>Reginald — the butler / the midwife</h4>
+    <p class="line"><b>STR</b> 55 · <b>CON</b> 60 · <b>SIZ</b> 60 · <b>DEX</b> 55 · <b>APP</b> 65 · <b>HP</b> 12 · <b>Build</b> 0 · <b>Move</b> 7<br>
+    <b>Skills:</b> Charm 60%, Listen 55%, Stealth 45%, Fighting (Brawl) 45%, Firearms 30%.<br>
+    <b>Keeper note:</b> Before midnight he never fights — he de-escalates, apologises, withdraws. After the bloom he doesn't need to fight; he's already won. If attacked at the end, he doesn't defend himself. He simply keeps smiling. That's more frightening than any stat line.</p>
+  </div>
+
+  <div class="keeper rise">
+    <span class="lbl">Stat blocks are for CoC 7th edition conventions</span>
+    <p>Adjust to your table's edition and power level as needed — these are written to be combat-ready as-is, not a starting point you have to finish building.</p>
+  </div>
+</section>
+
 <!-- ===================== REFERENCE DOSSIER ===================== -->
-<section class="leaf d6" id="ref">
+<section class="leaf d1" id="ref">
   <span class="actno rise">Appendix</span>
   <h2 class="disp rise">Reference Dossier</h2>
   <p class="small rise" style="margin-bottom:1.6rem">Pulled out of the read-through so the acts stay clean at the table.</p>
@@ -981,14 +1192,10 @@ window.addEventListener('DOMContentLoaded', loadMenu);
     <p class="small" style="margin-top:.6rem">Every rank is ×10. Draining enough STR to reach 1553 (Mary's coronation) would gut an investigator — which is the point. The past is reachable and it will cost you your body to touch it.</p>
   </div>
 
-  <h3 class="rise">Cast of the house</h3>
-  <ul class="plain rise">
-    <li><strong>Reginald</strong> — the butler. Sincere, exacting, ignorant by design. The house's hands. Opens the way at midnight and welcomes the dawn of "a new birth."</li>
-    <li><strong>Mother</strong> — the 1845 vessel, hollowed out and kept alive to birth Dark Ones. Strapped to the bed in the Master Suite. Says only: "Care for the brood."</li>
-    <li><strong>Zebulon Whately</strong> — Dunwich guide. Knows exactly what the hill is and gets the investigators there as fast as he can. Will not follow them up.</li>
-    <li><strong>Y'golonac</strong> — Great Old One. Headless body, mouths in the palms. Wants to be let in through a vessel of Mary's blood on the new moon of 1 October.</li>
-    <li><strong>The Household / the owners</strong> — never seen, possibly never real. Reginald's schedule appears from an unknown source. The true master is the god below.</li>
-  </ul>
+  <div class="keeper rise">
+    <span class="lbl">Cast, voices, and stat blocks</span>
+    <p>Moved up front where you'll actually reach for them mid-session: the cast list and NPC voice/posture notes are in <a href="#cast">Cast &amp; Voices</a>, right after the Secret Truth; combat stats for Mother, the brood, and Reginald are in <a href="#stats">Stat Blocks</a>, right after the acts.</p>
+  </div>
 
   <h3 class="rise">Sanity toll — quick tally</h3>
   <table class="dtable rise">
